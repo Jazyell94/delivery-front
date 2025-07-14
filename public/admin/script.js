@@ -4,6 +4,13 @@ let autoFetchEnabled = true;
 let fetchInterval;
 let previousOrders = [];
 
+const corsOptions = {
+  origin: ['https://jazyell94.github.io'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+};
+app.use(cors(corsOptions));
+
 const newStatus = 'pendente';
 
 function playNewOrderSound() {

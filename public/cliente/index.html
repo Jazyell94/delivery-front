@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lanchonete Ideal</title>
+
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="https://kit.fontawesome.com/f9145d5310.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+
+    <section id="loja-fechada" class="loja-fechada">
+      <div class="title">
+        <h2>Loja Fechada</h2>
+        <p>Voltaremos logo...</p>
+      </div>
+      <div class="animacao">
+        <script 
+          src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" 
+          type="module">
+        </script> 
+        <dotlottie-player 
+          src="https://lottie.host/f6128ee0-f625-42fe-b9cc-2fac4a463b26/1W5FQsLKgQ.json" 
+          background="transparent" 
+          speed="1" 
+          loop autoplay>
+        </dotlottie-player>
+      </div>
+    </section>
+
+    <section id="preloader">
+      <div class="loader">
+        <div class="loader-circle">
+          <div class="loader-circle-inner"></div>
+        </div>
+      </div>
+    </section>
+
+
+    <section id="site-content" class="site-content">
+
+      <!-- Botões do menu starts -->
+      <section id="menu" class="menu">
+        <i class="fa-solid fa-house" id="home-icon"></i>
+        <i class="fa-solid fa-cart-shopping" id="cart-icon"></i>
+      </section>
+      <!-- Botões do menu ends -->
+
+      <!-- Home section starts -->
+      <section id="home-section" class="section" style="display: block;">
+        <!-- Cabeçalho da section home starts -->
+        <header class="header">
+          <div class="content">
+            <div class="perfil">
+              <div class="name">
+                <p id="saudacao"></p>
+                <h3>Peça agora o <br> melhor lanche da cidade 😋</h3>
+              </div>
+              
+              <div class="icon">
+                
+              </div>
+            </div>
+
+            <div class="search">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input id="search-input" type="text" placeholder="Pastel de frango">
+            </div>
+                        
+
+            
+          </div>
+        </header>
+        <!-- Cabeçalho da section home ends -->
+
+        <!-- Categories home starts -->
+        <div class="categories">
+          <div class="content">
+            <a href="#" class="item" data-category="pastel">
+              <span>Pastel</span>
+            </a>
+            <a href="#" class="item" data-category="bomba">
+              <span>Bomba</span>
+            </a>
+            <a href="#" class="item" data-category="coxinha">
+              <span>Coxinha</span>
+            </a>
+            <a href="#" class="item" data-category="esfiha">
+              <span>Esfiha</span>
+            </a>
+            <a href="#" class="item" data-category="bebidas">
+              <span>Bebidas</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Container para o conteúdo da categoria -->
+        <!-- Seção que irá mudar de conteúdo -->
+        <section id="content-section" class="products">
+          <!-- Conteúdo para Pastel -->
+          <div id="pastel-content"  data-category="pastel"></div>
+
+          <!-- Conteúdo para Bomba -->
+          <div id="bomba-content" class="hidden" data-category="bomba"></div>
+
+          <!-- Conteúdo para Coxinha -->
+          <div id="coxinha-content" class="hidden" data-category="coxinha"></div>
+
+          <!-- Conteúdo para Pizza -->
+          <div id="esfiha-content" class="hidden" data-category="pizza"></div>
+
+          <!-- Conteúdo para Bebidas -->
+          <div id="bebidas-content" class="hidden" data-category="bebidas"></div>
+        </section>
+
+
+
+      </section>
+      <!-- Home section ends -->
+
+      <!-- Cart section starts -->
+      <section id="cart-section" class="section" style="display: none;">
+        <h2 class="heading">Carrinho</h2>
+       
+        <div id="cart-container" class="cart-container">
+          <div class="cart-vazio">Seu carrinho está vazio!</div>
+          <!-- Itens do carrinho serão renderizados aqui -->
+        </div>
+        
+      </section>
+      <!-- Cart section ends -->
+      
+    </section>
+
+  <script src="assets/js/script.js"></script>
+</body>
+
+</html>

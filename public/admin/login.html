@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Administração de Pedidos</title>
+    <link rel="stylesheet" href="../public/style.css">
+
+</head>
+
+<body>
+
+    <header>
+        <h1>Administração de Pedidos</h1>
+    </header>
+
+    <section class="login-section">
+        <div class="login-container">
+             <div class="title">
+                <h2>Login</h2>
+             </div>
+            <div class="form">
+                <input type="text" id="username" placeholder="Usuário" autocomplete="off" required>
+                <input type="password" id="password" placeholder="Senha" autocomplete="new-password" required>
+                <button onclick="login()">Entrar</button>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username === "admin" && password === "123") {
+                window.location.href = 'admin.html';
+            } else {
+                alert('Usuário ou senha inválidos!');
+            }
+        }
+    </script>
+
+</body>
+
+</html>

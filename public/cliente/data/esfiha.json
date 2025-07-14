@@ -1,0 +1,20 @@
+[
+    {
+      "name": "3 esfiha por 10",
+      "price": " 10,00",
+      "image": "assets/image/esfiha3.png",
+      "id": "esfihaFrango"
+    },
+    {
+      "name": "Esfiha de Frango",
+      "price": " 4,00",
+      "image": "assets/image/esfiha.webp",
+      "id": "esfihaFrango"
+    },
+    {
+      "name": "Esfiha de Carne",
+      "price": "4,00",
+      "image": "assets/image/esfiha.webp",
+      "id": "esfihaCarne"
+    }
+  ]

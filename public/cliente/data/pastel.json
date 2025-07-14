@@ -1,0 +1,32 @@
+[
+    {
+      "name": "3 pastel por 10",
+      "price": " 10,00",
+      "image": "assets/image/pastel3.png",
+      "id": "pastelFrango"
+    },
+    {
+      "name": "Pastel de Frango",
+      "price": " 4,00",
+      "image": "assets/image/pastel.png",
+      "id": "pastelFrango"
+    },
+    {
+      "name": "Pastel de F. catupiry",
+      "price": " 4,50",
+      "image": "assets/image/pastel.png",
+      "id": "pastelFrangoCatupiry"
+    },
+    {
+      "name": "Pastel de Queijo",
+      "price": " 4,50",
+      "image": "assets/image/pastel.png",
+      "id": "pastelQueijo"
+    },
+    {
+      "name": "Pastel de Carne",
+      "price": " 4,00",
+      "image": "assets/image/pastel.png",
+      "id": "pastelCarne"
+    }
+  ]

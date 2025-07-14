@@ -1,0 +1,604 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+/*///////////// ESTILOS PRINCIPAIS STARTS /////////////*/
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+}
+section {
+    padding: 1rem;
+}
+body {
+    background: #fff;
+    font-family: "Mulish", sans-serif;
+}
+.heading {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+.site-content {
+    padding: 0;
+}
+/*///////////// ESTILO PRINCIPAIS ENDS /////////////*/
+
+
+/*///////////// ESTILO LOJA FECHADA STARTS /////////////*/
+.loja-fechada {
+    margin: 0;
+    padding: 0;
+    height: 95vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.loja-fechada .animacao {
+    margin-top: 2rem;
+    width: 100%;
+    height: 300px;
+    bottom: 10rem;
+    right: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+}
+.loja-fechada .animacao dotlottie-player {
+    width: 100%; 
+    height: 300px;
+}
+/*///////////// ESTILO LOJA FECHADA ENDS /////////////*/
+
+/*///////////// ESTILO HEADER STARTS /////////////*/
+.header {
+    margin-top: .5rem;
+}
+.header .content .perfil {
+    display: flex;
+    justify-content: space-between;
+}
+.header .content .perfil .name p {
+    margin-bottom: 5px;
+    color: #747474;
+    font-size: 1.5rem;
+    font-family: "Outfit", sans-serif;
+}
+.header .content .perfil .name h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    font-family: "Noto Sans", sans-serif;
+}
+.header .content .perfil .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+}
+.header .search {
+    background-color: #f5f5f5;
+    border: 1.5px solid #acacac;
+    margin-top: 1.5rem;
+    padding: .6rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 5px;
+}
+.header .search i {
+    font-size: 1.5rem;
+    margin-right: .8rem;
+    color: #acacac;
+}
+.header .search input {
+    width: 95%;
+    font-size: 1rem;
+    border: none;
+    background-color: transparent;
+}
+.header .search input::placeholder {
+    color: #747474;
+}
+.header .search input:focus,
+.header .search input:active {
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+/*///////////// ESTILO HEADER ENDS /////////////*/
+
+/* Menu styles starts */
+.menu {
+    z-index: 1000;
+    position: fixed;
+    bottom: 0;
+    background-color: #fff;
+    width: 100%;
+    box-shadow: #acacac 2px 2px 20px;
+    display: flex;
+    justify-content: space-evenly;
+}
+.menu i {
+    font-size: 1.5rem;
+    color: #acacac;
+    cursor: pointer;
+}
+.menu i.active {
+    color: #000;
+}
+
+/* Categories styles starts */
+.categories {
+    margin-top: 1rem;
+}
+.categories .content {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+}
+.categories .content::-webkit-scrollbar {
+    display: none;
+}
+.categories .content .item {
+    padding: .5rem 1rem;
+    text-align: center;
+    border-radius: 5px;
+    background: none;
+    border: 1.5px solid #acacac;
+}
+.categories .content .item.active {
+    background-color: #000;
+    border: none;
+    color: #fff;
+}
+.categories .content .item span {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #000;
+}
+.categories .content .item span.active {
+    color: #fff;
+}
+
+/* Esconde os conteúdos, exceto o padrão */
+.hidden {
+    display: none;
+  }
+
+  .item {
+    display: block;
+    padding: 10px;
+    background-color: #f0f0f0;
+  }
+
+  /* ... */
+/* Categories styles ends */
+.products {
+    padding: 1rem 0;
+}
+.products .default-content {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.8rem
+}
+.products #bomba-content,
+.products #pastel-content,
+.products #coxinha-content,
+.products #esfiha-content, 
+.products #bebidas-content {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.8rem;
+}
+
+
+
+.products .product-container .content {
+    padding: .5rem 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 5px;
+    box-shadow: #d3d3d3 0 5px 10px;
+}
+.products .product-container .product-img {
+    width: 90%;
+    height: 10rem;
+    object-fit: cover;
+}
+.products .product-container .product-img img {
+    width: 100%;
+    height: 100%;
+}
+.products .product-container .product-desc {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 90%;
+    margin-top: 10px;
+}
+.products .product-container .product-desc .product-name {
+    text-align: center;
+    font-weight: 800;
+}
+.products .product-container .product-desc .price {
+    margin-top: .5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.products .product-container .product-desc .price .add-to-cart {
+    padding: .4rem .5rem;
+    border-radius: 5px;
+    color: #fff;
+    background-color: #000;
+    cursor: pointer;
+}
+
+@media (min-width: 700px) {
+    .products #bomba-content,
+    .products #pastel-content,
+    .products #coxinha-content,
+    .products #esfiha-content, 
+    .products #bebidas-content { 
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+@media (min-width: 1050px) {
+    .products #bomba-content,
+    .products #pastel-content,
+    .products #coxinha-content,
+    .products #esfiha-content, 
+    .products #bebidas-content { 
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+
+
+#loja-fechada {
+    display: none;
+    text-align: center;
+    font-size: 24px;
+    margin-top: 20px;
+}
+#site {
+    display: block;
+}
+
+
+
+/*//////////////// 
+ CARRINHO //////////////////*/
+ .cart-container {
+    margin-bottom: 15rem;
+ }
+.cart-vazio {
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.cart-item {
+    position: relative;
+    margin-bottom: .5rem;
+    padding: .5rem ;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    box-shadow: #d3d3d3 1px 2px 10px 1px;
+}
+.cart-item .fa-solid {
+    cursor: pointer;
+}
+.cart-item .product-image {
+    width: 50px;
+    height: 50px;
+    margin-right: 1rem;
+    object-fit: cover;
+}
+.cart-item .product-image img {
+    font-size: .7rem;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+}
+.cart-item .product-cart-description {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.cart-item .product-cart-description .name {
+    font-weight: 800;
+    margin-bottom: .5rem;
+}
+.cart-item .quantity-container {
+    position: absolute;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+    font-size: 1rem;
+}
+.cart-item .quantity-container i {
+    width: 100%;
+    height: 100%;
+    padding: .2rem;
+}
+.cart-item .quantity-container span {
+    width: 100%;
+    text-align: center;
+    color: #f25b05;
+    font-weight: 700;
+}
+
+.total-container {
+    background-color: #fff;
+    padding: 1rem 0;
+    width: 95%;
+    position: fixed;
+    bottom: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.total-container .price {
+    color: #f25b05;
+}
+.total-container .sub-total {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: .5rem;
+}
+.total-container .entrega {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+.total-container .total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2rem;
+}
+.total-container .total p {
+    font-weight: 800;
+}
+.total-container .cart-finish {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: .5rem;
+    margin-top: 1rem;
+    color: #fff;
+    background-color: #000;
+}
+.total-container .cart-finish p {
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+/* Add this to your CSS file */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+  
+  .overlay.show {
+    display: flex;
+  }
+  
+  .overlay-content {
+    position: relative;
+    display: flex;
+    
+    flex-direction: column;
+    max-width: 480px;
+    overflow: hidden;
+    background-color: #fff;
+    
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    margin: 40px auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .overlay-content input {
+    width: 100%;
+    height: 2rem;
+    margin-top: 1rem;
+    padding-left: .5rem;
+    border-radius: 5px;
+    border: 1px solid #acacac;
+  }
+  .overlay-content input:active,
+  .overlay-content input:focus {
+    border-color: #f25b05;
+  }
+  .overlay-content p {
+    margin-top: 1rem;
+  }
+
+  .overlay-content select {
+    width: 100%;
+    height: 2rem;
+    margin-top: .5rem;
+    border: 1px solid #acacac;
+  }
+
+  .overlay-content button {
+    background-color: #000;
+    color: #fff;
+    width: 100px;
+    font-size: 1rem;
+    margin-top: 1rem;
+    padding: .5rem;
+    border-radius: 10px;
+    border: none;
+  }
+
+  .overlay-content i {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: .8rem;
+    
+    
+    color: #000;
+
+}
+
+.overlay-content select {
+    background: none;
+    color: #000;
+    border-radius: 5px;
+    padding-left: .5rem;
+}
+
+
+
+
+#preloader {
+    /* ... */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.8); /* cor de fundo branca com opacidade */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999; /* para garantir que o preloader esteja acima de todos os outros elementos */
+  }
+  
+  #preloader.hide {
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+  }
+
+
+  
+  .loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* garantir que o loader esteja na frente dos elementos da tela */
+  }
+  
+  .loader-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 3px solid #f25b05; /* cor do círculo exterior */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .loader-circle-inner {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #fff; /* cor do círculo interior */
+    animation: loader-circle-inner 2s infinite;
+  }
+  
+  @keyframes loader-circle-inner {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+
+
+
+
+  .notificacao {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background-color: #333;
+    color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    z-index: 1000;
+  }
+  
+  .notificacao .fechar-notificacao {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+  
+ 
+
+
+     /* Estilo para a div de confirmação */
+    /* Estilo para a div de confirmação */
+.confirm-remodal {
+    position: fixed; /* Fixa o modal no centro da tela */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centraliza o modal na tela */
+    background-color: #fff; /* Cor de fundo branca */
+    color: #333; /* Cor do texto */
+    padding: 20px;
+    border-radius: 8px; /* Cantos arredondados */
+    border: 1px solid #ccc;
+    z-index: 1000; /* Garante que o modal fique acima do overlay */
+    max-width: 90%; /* Largura máxima */
+    width: 400px; /* Largura fixa */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 99999;
+  }
+  
+
+
+
+
+      
+      .confirm-remodal button {
+        margin: 10px 5px;
+        padding: 5px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        background-color: #000;
+        color: #fff;
+        font-size: 14px;
+      }
+    

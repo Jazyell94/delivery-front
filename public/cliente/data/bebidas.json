@@ -1,0 +1,60 @@
+[
+    {
+      "name": "Coca-cola 350ml",
+      "price": " 5,00",
+      "image": "assets/image/bebidas/coca-cola-lata.jpg",
+      "id": "cocaColaLata"
+    },
+    {
+      "name": "Coca-cola 350ml ",
+      "price": " 5,00",
+      "image": "assets/image/bebidas/coca-cola-lata-zero.webp",
+      "id": "cocaColaLataZero"
+    },
+    {
+      "name": "Fanta uva 350ml",
+      "price": " 5,00",
+      "image": "assets/image/bebidas/fanta-uva.webp",
+      "id": "fantaUvaLata"
+    },
+    {
+      "name": "Fanta laranja 350ml",
+      "price": " 5,00",
+      "image": "assets/image/bebidas/fanta-laranja.webp",
+      "id": "fantaLaranjaLata"
+    },
+    {
+      "name": "Fanta guar. 350ml",
+      "price": " 5,00",
+      "image": "assets/image/bebidas/fanta-guarana.webp",
+      "id": "fantaGuaranaLata"
+    },
+    {
+      "name": "Fanta mara. 350ml",
+      "price": " 5,00",
+      "image": "assets/image/bebidas/fanta-maracuja.webp",
+      "id": "fataMaracujaLata"
+    },
+    {
+      "name": "Fanta guar. 200ml",
+      "price": " 3,00",
+      "image": "assets/image/bebidas/fanta-guarana-pet.webp",
+      "id": "fantaGuaranaPet200ml"
+    },
+    {
+      "name": "Fanta uva 200ml",
+      "price": " 3,00",
+      "image": "assets/image/bebidas/fanta-uva-pet.webp"
+    },
+    {
+      "name": "Coca-cola 200ml",
+      "price": " 3,00",
+      "image": "assets/image/bebidas/coca-cola-pet.webp",
+      "id": "cocaColaPet200ml"
+    },
+    {
+      "name": "Coca-cola 2l",
+      "price": " 12,00",
+      "image": "assets/image/bebidas/coca-cola-pet-2l.webp"
+    }
+]

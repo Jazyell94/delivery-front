@@ -1,0 +1,20 @@
+[
+    {
+      "name": "3 bombas por 10",
+      "price": " 10,00",
+      "image": "assets/image/bomba3.png",
+      "id": "bombaCarne"
+    },
+    {
+      "name": "Bomba de Carne",
+      "price": " 4,00",
+      "image": "assets/image/bomba.png",
+      "id": "bombaCarne"
+    },
+    {
+      "name": "Bomba de Presunto",
+      "price": " 4,00",
+      "image": "assets/image/bomba.png",
+      "id": "bombaPresunto"
+    }
+  ]

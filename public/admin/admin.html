@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administração de Pedidos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <header>
+        <h1>Administração de Pedidos</h1>
+    </header>
+
+    <section class="orders-section" id="ordersTable">
+        <div class="orders-search-date">
+            <div class="search">
+                <input type="date" id="datePicker" />
+                <button onclick="fetchOrdersByDate()">Buscar Pedidos</button>
+                <button onclick="returnToTodayOrders()">Voltar para hoje</button>
+            </div>
+            <div class="date" id="dataHora">
+
+            </div>
+        </div>
+
+        <div class="orders-container" id="ordersContainer">
+            
+        </div>
+    </section>
+
+    <div id="notification" class="hidden"></div>
+
+    <script>
+        function atualizarDataHora() {
+            const agora = new Date();
+            const data = agora.toLocaleDateString('pt-BR');
+            const hora = agora.toLocaleTimeString('pt-BR');
+            document.getElementById('dataHora').innerHTML = `Data: ${data} | Hora: ${hora}`;
+        }
+
+        setInterval(atualizarDataHora, 1000);
+        atualizarDataHora();
+    </script>
+
+    
+    <script src="script.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qz-tray/2.1.0/qz-tray.js"></script>
+
+</body>
+</html>

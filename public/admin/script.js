@@ -4,13 +4,6 @@ let autoFetchEnabled = true;
 let fetchInterval;
 let previousOrders = [];
 
-const corsOptions = {
-  origin: ['https://jazyell94.github.io'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true
-};
-app.use(cors(corsOptions));
-
 const newStatus = 'pendente';
 
 function playNewOrderSound() {
@@ -270,43 +263,3 @@ async function deleteOrder(clientId) {
     }
 }
 
-// ========== QZ TRAY (IMPRESSÃO) ==========
-
-qz.security.setCertificatePromise(() => {
-    return fetch(`${API_BASE_URL}/path/to/your/certificate.pem`)
-        .then(res => res.text());
-});
-
-qz.security.setSignaturePromise(toSign => {
-    return fetch(`${API_BASE_URL}/path/to/sign-message`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ data: toSign })
-    }).then(res => res.text());
-});
-
-function printWithQZ(order) {
-    const conteudo = `
-Pedido #${order.client_id}
-----------------------------
-Nome: ${order.nome}
-Endereço: ${order.endereco}
-----------------------------
-${order.produtos}
-----------------------------
-Total: R$ ${order.total_preco.toFixed(2)}
-Pagamento: ${order.forma_pagamento}
-Troco: R$ ${order.troco || 0}
-----------------------------
-Obrigado!
-`;
-
-    const config = qz.configs.create(null);
-    const data = [{
-        type: 'raw',
-        format: 'plain',
-        data: conteudo
-    }];
-
-    qz.print(config, data).catch(console.error);
-}

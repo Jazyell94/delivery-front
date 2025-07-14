@@ -1,3 +1,5 @@
+const API_BASE_URL = 'https://delivery-system-production.up.railway.app';
+
 let autoFetchEnabled = true; 
 let fetchInterval;
 let previousOrders = [];
@@ -5,7 +7,7 @@ let previousOrders = [];
 const newStatus = 'pendente';
 
 function playNewOrderSound() {
-    const audio = new Audio('new-orders-sound.mp3'); // Caminho do arquivo de som
+    const audio = new Audio('new-orders-sound.mp3');
     audio.play();
 }
 
@@ -13,7 +15,7 @@ async function fetchOrders() {
     if (!autoFetchEnabled) return; 
 
     try {
-        const response = await fetch('/clientes');
+        const response = await fetch(`${API_BASE_URL}/clientes`);
         const data = await response.json();
         displayOrders(data);
     } catch (error) {
@@ -21,12 +23,10 @@ async function fetchOrders() {
     }
 }
 
-// Iniciar a busca automática de pedidos
 function startAutoFetch() {
-    fetchInterval = setInterval(fetchOrdersByDate, 5000); // A cada 5 segundos
+    fetchInterval = setInterval(fetchOrdersByDate, 5000);
 }
 
-// Definindo a data inicial como valor do datePicker
 function setInitialDate() {
     const datePicker = document.getElementById('datePicker');
     const today = new Date();
@@ -36,22 +36,18 @@ function setInitialDate() {
     datePicker.value = `${year}-${month}-${day}`; 
 }
 
-
-// Função para verificar novos pedidos
 function showNotification(message) {
     const notification = document.getElementById('notification');
     notification.innerText = message;
     notification.classList.remove('hidden');
     notification.classList.add('show');
 
-    // Remove a notificação após 3 segundos
     setTimeout(() => {
         notification.classList.remove('show');
         notification.classList.add('hidden');
-    }, 6000);  // Exibe a notificação por 3 segundos
+    }, 6000);
 }
 
-// Pedir permissão para enviar notificações
 document.addEventListener('DOMContentLoaded', () => {
     if (Notification.permission !== "granted") {
         Notification.requestPermission().then(permission => {
@@ -59,32 +55,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log("Permissão para notificações concedida.");
             } else if (permission === "denied") {
                 alert("As notificações estão bloqueadas. Você pode ativá-las nas configurações do navegador.");
-            } else {
-                console.log("O usuário ainda não respondeu ao pedido de permissão.");
             }
         });
     }
 });
 
-
 function showSystemNotification(title, message) {
     if (Notification.permission === "granted") {
         const options = {
             body: message,
-            icon: '/path/to/notification-icon.png', 
-            requireInteraction: false 
+            icon: '/path/to/notification-icon.png',
+            requireInteraction: false
         };
         const notification = new Notification(title, options);
-        notification.onclick = function() {
-            window.focus(); 
-            notification.close(); 
+        notification.onclick = function () {
+            window.focus();
+            notification.close();
         };
-    } else {
-        console.log("Notificações não estão permitidas.");
-        alert("As notificações estão bloqueadas. Você pode ativá-las nas configurações do navegador.");
     }
 }
-
 
 function checkForNewOrders(currentOrders) {
     if (previousOrders.length === 0) {
@@ -98,48 +87,41 @@ function checkForNewOrders(currentOrders) {
 
     if (newOrderExists) {
         playNewOrderSound();  
-        showNotification('Novo pedido chegou!'); 
-        showSystemNotification('Administração de Pedidos', 'Você tem um novo pedido!'); 
+        showNotification('Novo pedido chegou!');
+        showSystemNotification('Administração de Pedidos', 'Você tem um novo pedido!');
     }
 
-    previousOrders = currentOrders;  
+    previousOrders = currentOrders;
 }
 
-
-
-// Função para buscar pedidos por data
 async function fetchOrdersByDate() {
     const datePicker = document.getElementById('datePicker');
     let selectedDate = datePicker.value || new Date().toISOString().split('T')[0];
 
-    autoFetchEnabled = false; // Desativa a busca automática durante a requisição
+    autoFetchEnabled = false;
 
     try {
-        const response = await fetch(`/clientes?date=${selectedDate}`);
+        const response = await fetch(`${API_BASE_URL}/clientes?date=${selectedDate}`);
         if (!response.ok) {
             throw new Error('Erro ao buscar pedidos: ' + response.statusText);
         }
         const orders = await response.json();
 
         checkForNewOrders(orders);
-
         displayOrders(orders);
     } catch (error) {
         console.error('Erro ao buscar pedidos:', error);
         alert('Erro ao buscar pedidos. Verifique se a data é válida.');
     } finally {
-        autoFetchEnabled = true; // Reativa a busca automática após a requisição
+        autoFetchEnabled = true;
     }
 }
 
-
-// Função para retornar aos pedidos do dia atual
 function returnToTodayOrders() {
     setInitialDate();
-    fetchOrdersByDate(); 
+    fetchOrdersByDate();
 }
 
-// Função para exibir os pedidos na tela
 function displayOrders(orders) {
     const ordersBody = document.getElementById('ordersContainer');
     ordersBody.innerHTML = '';
@@ -153,42 +135,30 @@ function displayOrders(orders) {
         const row = document.createElement('div');
         row.classList.add('order-products');
 
-        // Corrigindo a manipulação da data
-        const [time, date] = order.data_pedido.split(' '); // Divide a data e a hora
-        const [day, month, year] = date.split('/'); // Divide a data em dia, mês e ano
-        const formattedDate = `${year}-${month}-${day} ${time}`; // Formato: YYYY-MM-DD HH:mm:ss
-        const dateObject = new Date(formattedDate); // Cria o objeto Date
+        const [time, date] = order.data_pedido.split(' ');
+        const [day, month, year] = date.split('/');
+        const formattedDate = `${year}-${month}-${day} ${time}`;
+        const dateObject = new Date(formattedDate);
 
         const produtos = order.produtos || "Sem produtos";
         const status = order.status || 'pendente';
 
-        // Formatar a data manualmente com traço entre a data e a hora
-        const formattedDisplayDate = `${dateObject.toLocaleDateString('pt-BR', {
-            day: '2-digit', month: '2-digit', year: 'numeric'
-        })} - ${dateObject.toLocaleTimeString('pt-BR', {
-            hour: '2-digit', minute: '2-digit', second: '2-digit'
-        })}`;
+        const formattedDisplayDate = `${dateObject.toLocaleDateString('pt-BR')} - ${dateObject.toLocaleTimeString('pt-BR')}`;
 
-        // Definir a classe de status com base no status do pedido
         let statusClass = '';
         switch (status) {
             case 'pendente':
-                statusClass = 'status-pendente';
-                break;
+                statusClass = 'status-pendente'; break;
             case 'em andamento':
-                statusClass = 'status-em-andamento';
-                break;
+                statusClass = 'status-em-andamento'; break;
             case 'saiu para entrega':
-                statusClass = 'status-saiu-para-entrega';
-                break;
+                statusClass = 'status-saiu-para-entrega'; break;
             case 'entregue':
-                statusClass = 'status-entregue';
-                break;
+                statusClass = 'status-entregue'; break;
             default:
                 statusClass = '';
         }
 
-        // Construir o HTML para o pedido
         row.innerHTML = `
             <div class="order-products-header">
                 <span id="status-${order.client_id}" class="${statusClass}">${status}</span>
@@ -214,68 +184,54 @@ function displayOrders(orders) {
     });
 }
 
-// Configurações do DOM
 document.addEventListener('DOMContentLoaded', () => {
     setInitialDate(); 
     fetchOrdersByDate(); 
-    startAutoFetch(); // Iniciar busca automática ao carregar a página
+    startAutoFetch();
 });
-
-// Funções para mudar status, editar e excluir pedidos...
 
 function getNextStatus(currentStatus) {
     switch (currentStatus) {
-        case 'pendente':
-            return 'em andamento';
-        case 'em andamento':
-            return 'saiu para entrega';
-        case 'saiu para entrega':
-            return 'entregue';
-        default:
-            return currentStatus; // Retorna o status atual se não houver mudança
+        case 'pendente': return 'em andamento';
+        case 'em andamento': return 'saiu para entrega';
+        case 'saiu para entrega': return 'entregue';
+        default: return currentStatus;
     }
 }
 
-// Função para mudar o status de um pedido
 function changeStatus(clientId, currentStatus) {
     const newStatus = getNextStatus(currentStatus);
-    
-    fetch(`/status/${clientId}`, {
+
+    fetch(`${API_BASE_URL}/status/${clientId}`, {
         method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus })
     })
     .then(response => {
-        if (!response.ok) {
-            throw new Error('Erro ao mudar status');
-        }
+        if (!response.ok) throw new Error('Erro ao mudar status');
         return response.json();
     })
-    .then(data => {
-        console.log('Status atualizado com sucesso:', data);
-        fetchOrdersByDate(); // Recarregar pedidos após a atualização
+    .then(() => {
+        fetchOrdersByDate();
     })
     .catch(error => {
         console.error('Erro ao mudar status:', error);
     });
 }
 
-// Função para editar um pedido existente
 async function editOrder(clientId) {
     const newProduct = prompt("Digite o novo produto (ex: pastelFrango):");
     const newQuantity = prompt("Digite a nova quantidade:");
-    
+
     if (newProduct && newQuantity) {
         try {
-            const response = await fetch(`/edit/${clientId}`, {
+            const response = await fetch(`${API_BASE_URL}/edit/${clientId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ produto_id: newProduct, quantidade: parseInt(newQuantity) })
             });
             if (response.ok) {
-                fetchOrdersByDate(); // Atualizar pedidos após a edição
+                fetchOrdersByDate();
             } else {
                 console.error('Erro ao editar pedido:', response.statusText);
             }
@@ -285,17 +241,16 @@ async function editOrder(clientId) {
     }
 }
 
-// Função para excluir um pedido
 async function deleteOrder(clientId) {
     if (confirm("Tem certeza que deseja excluir este pedido e todos os dados associados?")) {
         try {
-            const response = await fetch(`/delete/${clientId}`, {
+            const response = await fetch(`${API_BASE_URL}/delete/${clientId}`, {
                 method: 'DELETE'
             });
 
             if (response.ok) {
-                fetchOrdersByDate(); // Atualizar pedidos após a exclusão
-                alert('Cliente e todos os dados relacionados excluídos com sucesso!'); // Mensagem de sucesso
+                fetchOrdersByDate();
+                alert('Cliente e todos os dados relacionados excluídos com sucesso!');
             } else {
                 const errorData = await response.json();
                 console.error('Erro ao excluir cliente:', errorData.message);
@@ -308,23 +263,21 @@ async function deleteOrder(clientId) {
     }
 }
 
-// ==================== IMPRESSÃO =======================
+// ========== QZ TRAY (IMPRESSÃO) ==========
 
 qz.security.setCertificatePromise(() => {
-    return fetch("/path/to/your/certificate.pem") // hospede esse arquivo no seu projeto
+    return fetch(`${API_BASE_URL}/path/to/your/certificate.pem`)
         .then(res => res.text());
 });
 
 qz.security.setSignaturePromise(toSign => {
-    return fetch("/path/to/sign-message", {
+    return fetch(`${API_BASE_URL}/path/to/sign-message`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ data: toSign })
     }).then(res => res.text());
 });
 
-
-// Função para imprimir o pedido
 function printWithQZ(order) {
     const conteudo = `
 Pedido #${order.client_id}
@@ -341,7 +294,7 @@ Troco: R$ ${order.troco || 0}
 Obrigado!
 `;
 
-    const config = qz.configs.create(null); // null usa a impressora padrão
+    const config = qz.configs.create(null);
     const data = [{
         type: 'raw',
         format: 'plain',
@@ -350,5 +303,3 @@ Obrigado!
 
     qz.print(config, data).catch(console.error);
 }
-
-

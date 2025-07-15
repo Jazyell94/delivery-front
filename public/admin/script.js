@@ -1,4 +1,7 @@
-const API_BASE_URL = 'disciplined-determination-production.up.railway.app';
+const API_BASE_URL = window.location.hostname.includes("localhost")
+  ? "http://localhost:3000"
+  : "https://disciplined-determination-production.up.railway.app";
+
 
 let autoFetchEnabled = true;
 let fetchInterval;

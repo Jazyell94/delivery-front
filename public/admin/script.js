@@ -1,25 +1,33 @@
 const API_BASE_URL = 'https://delivery-system-production.up.railway.app';
 
-let autoFetchEnabled = true; 
+let autoFetchEnabled = true;
 let fetchInterval;
 let previousOrders = [];
-
-const newStatus = 'pendente';
 
 function playNewOrderSound() {
     const audio = new Audio('new-orders-sound.mp3');
     audio.play();
 }
 
-async function fetchOrders() {
-    if (!autoFetchEnabled) return; 
+async function fetchOrdersByDate() {
+    if (!autoFetchEnabled) return;
+    autoFetchEnabled = false;
+
+    const datePicker = document.getElementById('datePicker');
+    const selectedDate = datePicker?.value || new Date().toISOString().split('T')[0];
 
     try {
-        const response = await fetch(`${API_BASE_URL}/clientes`);
-        const data = await response.json();
-        displayOrders(data);
+        const response = await fetch(`${API_BASE_URL}/clientes?date=${selectedDate}`);
+        if (!response.ok) throw new Error('Erro ao buscar pedidos: ' + response.statusText);
+        const orders = await response.json();
+
+        checkForNewOrders(orders);
+        displayOrders(orders);
     } catch (error) {
-        console.error('Erro ao buscar pedidos:', error);
+        console.error(error);
+        alert('Erro ao buscar pedidos. Verifique se a data é válida.');
+    } finally {
+        autoFetchEnabled = true;
     }
 }
 
@@ -29,15 +37,19 @@ function startAutoFetch() {
 
 function setInitialDate() {
     const datePicker = document.getElementById('datePicker');
+    if (!datePicker) return;
+
     const today = new Date();
     const year = today.getFullYear();
     const month = String(today.getMonth() + 1).padStart(2, '0');
     const day = String(today.getDate()).padStart(2, '0');
-    datePicker.value = `${year}-${month}-${day}`; 
+    datePicker.value = `${year}-${month}-${day}`;
 }
 
 function showNotification(message) {
     const notification = document.getElementById('notification');
+    if (!notification) return;
+
     notification.innerText = message;
     notification.classList.remove('hidden');
     notification.classList.add('show');
@@ -58,6 +70,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    setInitialDate();
+    fetchOrdersByDate();
+    startAutoFetch();
 });
 
 function showSystemNotification(title, message) {
@@ -68,7 +84,7 @@ function showSystemNotification(title, message) {
             requireInteraction: false
         };
         const notification = new Notification(title, options);
-        notification.onclick = function () {
+        notification.onclick = () => {
             window.focus();
             notification.close();
         };
@@ -86,7 +102,7 @@ function checkForNewOrders(currentOrders) {
     const newOrderExists = currentOrderIds.some(id => !previousOrderIds.includes(id));
 
     if (newOrderExists) {
-        playNewOrderSound();  
+        playNewOrderSound();
         showNotification('Novo pedido chegou!');
         showSystemNotification('Administração de Pedidos', 'Você tem um novo pedido!');
     }
@@ -94,40 +110,14 @@ function checkForNewOrders(currentOrders) {
     previousOrders = currentOrders;
 }
 
-async function fetchOrdersByDate() {
-    const datePicker = document.getElementById('datePicker');
-    let selectedDate = datePicker.value || new Date().toISOString().split('T')[0];
-
-    autoFetchEnabled = false;
-
-    try {
-        const response = await fetch(`${API_BASE_URL}/clientes?date=${selectedDate}`);
-        if (!response.ok) {
-            throw new Error('Erro ao buscar pedidos: ' + response.statusText);
-        }
-        const orders = await response.json();
-
-        checkForNewOrders(orders);
-        displayOrders(orders);
-    } catch (error) {
-        console.error('Erro ao buscar pedidos:', error);
-        alert('Erro ao buscar pedidos. Verifique se a data é válida.');
-    } finally {
-        autoFetchEnabled = true;
-    }
-}
-
-function returnToTodayOrders() {
-    setInitialDate();
-    fetchOrdersByDate();
-}
-
 function displayOrders(orders) {
     const ordersBody = document.getElementById('ordersContainer');
+    if (!ordersBody) return;
+
     ordersBody.innerHTML = '';
 
-    if (orders.length === 0) {
-        ordersBody.innerHTML = '<p class="no-orders-message">Nenhum pedido nesta esta data.</p>';
+    if (!orders.length) {
+        ordersBody.innerHTML = '<p class="no-orders-message">Nenhum pedido nesta data.</p>';
         return;
     }
 
@@ -135,28 +125,32 @@ function displayOrders(orders) {
         const row = document.createElement('div');
         row.classList.add('order-products');
 
-        const [time, date] = order.data_pedido.split(' ');
-        const [day, month, year] = date.split('/');
-        const formattedDate = `${year}-${month}-${day} ${time}`;
-        const dateObject = new Date(formattedDate);
+        // Tratamento seguro da data_pedido
+        let formattedDisplayDate = 'Data inválida';
+        if (order.data_pedido) {
+            try {
+                const [time, date] = order.data_pedido.split(' ');
+                const [day, month, year] = date.split('/');
+                const formattedDate = `${year}-${month}-${day}T${time}`;
+                const dateObject = new Date(formattedDate);
+                if (!isNaN(dateObject)) {
+                    formattedDisplayDate = `${dateObject.toLocaleDateString('pt-BR')} - ${dateObject.toLocaleTimeString('pt-BR')}`;
+                }
+            } catch {
+                // mantém 'Data inválida'
+            }
+        }
 
         const produtos = order.produtos || "Sem produtos";
         const status = order.status || 'pendente';
 
-        const formattedDisplayDate = `${dateObject.toLocaleDateString('pt-BR')} - ${dateObject.toLocaleTimeString('pt-BR')}`;
-
         let statusClass = '';
         switch (status) {
-            case 'pendente':
-                statusClass = 'status-pendente'; break;
-            case 'em andamento':
-                statusClass = 'status-em-andamento'; break;
-            case 'saiu para entrega':
-                statusClass = 'status-saiu-para-entrega'; break;
-            case 'entregue':
-                statusClass = 'status-entregue'; break;
-            default:
-                statusClass = '';
+            case 'pendente': statusClass = 'status-pendente'; break;
+            case 'em andamento': statusClass = 'status-em-andamento'; break;
+            case 'saiu para entrega': statusClass = 'status-saiu-para-entrega'; break;
+            case 'entregue': statusClass = 'status-entregue'; break;
+            default: statusClass = '';
         }
 
         row.innerHTML = `
@@ -184,12 +178,6 @@ function displayOrders(orders) {
     });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    setInitialDate(); 
-    fetchOrdersByDate(); 
-    startAutoFetch();
-});
-
 function getNextStatus(currentStatus) {
     switch (currentStatus) {
         case 'pendente': return 'em andamento';
@@ -199,67 +187,66 @@ function getNextStatus(currentStatus) {
     }
 }
 
-function changeStatus(clientId, currentStatus) {
+async function changeStatus(clientId, currentStatus) {
     const newStatus = getNextStatus(currentStatus);
-
-    fetch(`${API_BASE_URL}/status/${clientId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status: newStatus })
-    })
-    .then(response => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/status/${clientId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status: newStatus })
+        });
         if (!response.ok) throw new Error('Erro ao mudar status');
-        return response.json();
-    })
-    .then(() => {
-        fetchOrdersByDate();
-    })
-    .catch(error => {
-        console.error('Erro ao mudar status:', error);
-    });
+        await fetchOrdersByDate();
+    } catch (error) {
+        console.error(error);
+        alert('Erro ao mudar status');
+    }
 }
 
 async function editOrder(clientId) {
     const newProduct = prompt("Digite o novo produto (ex: pastelFrango):");
     const newQuantity = prompt("Digite a nova quantidade:");
 
-    if (newProduct && newQuantity) {
-        try {
-            const response = await fetch(`${API_BASE_URL}/edit/${clientId}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ produto_id: newProduct, quantidade: parseInt(newQuantity) })
-            });
-            if (response.ok) {
-                fetchOrdersByDate();
-            } else {
-                console.error('Erro ao editar pedido:', response.statusText);
-            }
-        } catch (error) {
-            console.error('Erro ao editar pedido:', error);
-        }
+    if (!newProduct || !newQuantity) return;
+
+    const quantityNum = parseInt(newQuantity);
+    if (isNaN(quantityNum)) {
+        alert("Quantidade inválida!");
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/edit/${clientId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ produto_id: newProduct, quantidade: quantityNum })
+        });
+        if (!response.ok) throw new Error('Erro ao editar pedido');
+        await fetchOrdersByDate();
+    } catch (error) {
+        console.error(error);
+        alert('Erro ao editar pedido');
     }
 }
 
 async function deleteOrder(clientId) {
-    if (confirm("Tem certeza que deseja excluir este pedido e todos os dados associados?")) {
-        try {
-            const response = await fetch(`${API_BASE_URL}/delete/${clientId}`, {
-                method: 'DELETE'
-            });
+    if (!confirm("Tem certeza que deseja excluir este pedido e todos os dados associados?")) return;
 
-            if (response.ok) {
-                fetchOrdersByDate();
-                alert('Cliente e todos os dados relacionados excluídos com sucesso!');
-            } else {
-                const errorData = await response.json();
-                console.error('Erro ao excluir cliente:', errorData.message);
-                alert('Erro ao excluir cliente: ' + errorData.message);
-            }
-        } catch (error) {
-            console.error('Erro ao excluir cliente:', error);
-            alert('Erro ao excluir cliente: ' + error.message);
+    try {
+        const response = await fetch(`${API_BASE_URL}/delete/${clientId}`, { method: 'DELETE' });
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Erro desconhecido');
         }
+        await fetchOrdersByDate();
+        alert('Cliente e todos os dados relacionados excluídos com sucesso!');
+    } catch (error) {
+        console.error(error);
+        alert('Erro ao excluir cliente: ' + error.message);
     }
 }
 
+function returnToTodayOrders() {
+    setInitialDate();
+    fetchOrdersByDate();
+}

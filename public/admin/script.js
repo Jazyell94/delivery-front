@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://delivery-system-production.up.railway.app';
+const API_BASE_URL = 'disciplined-determination-production.up.railway.app';
 
 let autoFetchEnabled = true;
 let fetchInterval;
